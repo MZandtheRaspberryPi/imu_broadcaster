@@ -1,4 +1,5 @@
 # imu_broadcaster
+![example workflow](https://github.com/MZandtheRaspberryPi/imu_broadcaster/actions/workflows/pipeline.yaml/badge.svg)  
 A repo that talks to a bno055 imu using adafruit libraries and broadcasts the data via websocket, serialized with protobuffer.
 
 ## Running
