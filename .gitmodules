@@ -1,0 +1,9 @@
+[submodule "Adafruit_BNO055"]
+	path = Adafruit_BNO055
+	url = git@github.com:MZandtheRaspberryPi/Adafruit_BNO055.git
+[submodule "Adafruit_Sensor"]
+	path = Adafruit_Sensor
+	url = git@github.com:MZandtheRaspberryPi/Adafruit_Sensor.git
+[submodule "websocketpp"]
+	path = websocketpp
+	url = git@github.com:zaphoyd/websocketpp.git
