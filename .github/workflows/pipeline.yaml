@@ -26,12 +26,15 @@ jobs:
         run: |
           ./create_expected_dir_structure.sh
           cd imu_broadcaster_expected_structure
-      - name: example_new_dir
+      - name: examine_new_dir
         run: |
           cd /__w/imu_broadcaster/imu_broadcaster/imu_broadcaster_expected_structure
           pwd
           ls -a
           ls -a src/
+      - name: make_proto_headers
+        run: |
+          protoc -I=/__w/imu_broadcaster/imu_broadcaster/imu_broadcaster_expected_structure --cpp_out=/__w/imu_broadcaster/imu_broadcaster/imu_broadcaster_expected_structure/proto_msg /__w/imu_broadcaster/imu_broadcaster/imu_broadcaster_expected_structure/imu_msgs.proto
       - name: build
         run: |
           cd /__w/imu_broadcaster/imu_broadcaster/imu_broadcaster_expected_structure
