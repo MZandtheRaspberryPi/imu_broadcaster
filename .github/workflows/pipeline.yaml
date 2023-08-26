@@ -1,0 +1,34 @@
+name: IMU Broadcaster
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: self-hosted
+    container:
+      image: mzandtheraspberrypi/imu_websocket_broadcaster:build-2023-08-26
+      options: --cpus 1
+    steps:
+      # in a container git doesn't trust some stuff and submodules doesn't work
+      # https://github.com/actions/checkout/issues/1169
+      - name: git_correct_dir
+        run: |
+          git config --system --add safe.directory /__w/imu_broadcaster/imu_broadcaster
+      - name: checkout_repo
+        uses: actions/checkout@v2.3.4
+        with:
+          submodules: 'true'
+      - name: examine_files
+        run: |
+          pwd
+          ls -a
+      - name: create_dir_structure
+        run: |
+          ./create_expected_dir_structure.sh
+          cd imu_broadcaster_expected_structure
+      - name: build
+        run: |
+          mkdir build
+          cd build
+          cmake ..
+          make

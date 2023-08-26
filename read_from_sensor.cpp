@@ -56,103 +56,33 @@ void setup_sigint_handler(struct sigaction& sig_int_handler)
   sigaction(SIGINT, &sig_int_handler, NULL);
 }
 
-void printEvent(sensors_event_t *event)
-{
-  double x = -1000000, y = -1000000, z = -1000000; // dumb values, easy to spot problem
-  if (event->type == SENSOR_TYPE_ACCELEROMETER)
-  {
-    log_msg("Accl:");
-    x = event->acceleration.x;
-    y = event->acceleration.y;
-    z = event->acceleration.z;
-  }
-  else if (event->type == SENSOR_TYPE_ORIENTATION)
-  {
-    log_msg("Orient:");
-    x = event->orientation.x;
-    y = event->orientation.y;
-    z = event->orientation.z;
-  }
-  else if (event->type == SENSOR_TYPE_MAGNETIC_FIELD)
-  {
-    log_msg("Mag:");
-    x = event->magnetic.x;
-    y = event->magnetic.y;
-    z = event->magnetic.z;
-  }
-  else if (event->type == SENSOR_TYPE_GYROSCOPE)
-  {
-    log_msg("Gyro:");
-    x = event->gyro.x;
-    y = event->gyro.y;
-    z = event->gyro.z;
-  }
-  else if (event->type == SENSOR_TYPE_ROTATION_VECTOR)
-  {
-    log_msg("Rot:");
-    x = event->gyro.x;
-    y = event->gyro.y;
-    z = event->gyro.z;
-  }
-  else if (event->type == SENSOR_TYPE_LINEAR_ACCELERATION)
-  {
-    log_msg("Linear:");
-    x = event->acceleration.x;
-    y = event->acceleration.y;
-    z = event->acceleration.z;
-  }
-  else if (event->type == SENSOR_TYPE_GRAVITY)
-  {
-    log_msg("Gravity:");
-    x = event->acceleration.x;
-    y = event->acceleration.y;
-    z = event->acceleration.z;
-  }
-  else
-  {
-    log_msg("Unk:");
-  }
-
-  std::string msg = " \tx= " + std::to_string(x) + " |\ty= " + std::to_string(y) + " |\tz= " + std::to_string(z);
-  log_msg(msg);
-}
-
-
 sensor_broadcaster_args_t parse_args(const int& argc, char* argv[])
 {
   if (argc != 4) {
     sensor_broadcaster_args_t parsed_args = {"", 0, 0, -1};
-    std::cerr << "Usage:  " << argv[0] << " i2c_device_addres (ex: /dev/i2c-3)" << std::endl;
-    std::cerr << "    " << argv[1] << " i2c_chip_address (ex: 0x28)" << std::endl;
-    std::cerr << "Usage:  " << argv[2] << " websocket_port (ex: 9000)" << std::endl;
+    std::cerr << "Usage: " << argv[0] << " /dev/i2c-3 0x28 9000" <<  std::endl;
+    std::cerr << "  arg: " << "i2c_device_addres (ex: /dev/i2c-3)" << std::endl;
+    std::cerr << "  arg: " << "i2c_chip_address (ex: 0x28)" << std::endl;
+    std::cerr << "  arg: " << "websocket_port (ex: 9000)" << std::endl;
     return parsed_args;
   }
 
-  std::string i2c_device_address = argv[0];
-  size_t arg_length = 0;
-  char* arg_runner = argv[1];
-  while (*arg_runner != '\0' && arg_length <=8)
-  {
-    arg_length++;
-    arg_runner++;
-  }
-  uint8_t i2c_chip_address = std::strtoul(argv[1], &arg_runner, 0);
-  arg_length = 0;
-  arg_runner = argv[2];
-  while (*arg_runner != '\0' && arg_length <=8)
-  {
-    arg_length++;
-    arg_runner++;
-  }
-  uint16_t websocket_port = std::strtoul(argv[2], &arg_runner, 0);
+  std::string i2c_device_address = argv[1];
+  std::string i2c_chip_address_str = argv[2];
+  std::string websocket_port_str = argv[3];
 
-  sensor_broadcaster_args_t parsed_args{i2c_device_address, i2c_chip_address, websocket_port};
+  unsigned long int i2c_chip_address = std::strtoul(i2c_chip_address_str.c_str(), nullptr, 0);
+  unsigned long int websocket_port = std::strtoul(websocket_port_str.c_str(), nullptr, 0);
+
+  sensor_broadcaster_args_t parsed_args{i2c_device_address, static_cast<uint8_t>(i2c_chip_address), static_cast<uint16_t>(websocket_port), 0};
 
   std::cout << "args parsed:" << std::endl;
   std::cout << "i2c_device_address: " << parsed_args.i2c_device_address << std::endl;
-  std::cout << "i2c_chip_address: " << std::hex << parsed_args.i2c_chip_address << std::endl;
+  std::ios::fmtflags f(std::cout.flags());
+  std::cout << "i2c_chip_address: " << "0x" << std::hex << static_cast<int>(parsed_args.i2c_chip_address) << std::endl;
+  std::cout.flags(f);
   std::cout << "websocket_port: " << parsed_args.websocket_port << std::endl;
-
+  delay(2000);
   return parsed_args;
 
 }
@@ -180,10 +110,6 @@ int main(int argc, char* argv[])
 
   struct sigaction sig_int_handler;
   setup_sigint_handler(sig_int_handler);
-
-  // get i2c chip, get chip address
-  // get port
-  
 
   // Check I2C device address and correct line below (by default address is 0x29 or 0x28)
   //                                   id, address
