@@ -28,11 +28,13 @@ jobs:
           cd imu_broadcaster_expected_structure
       - name: example_new_dir
         run: |
+          cd /__w/imu_broadcaster/imu_broadcaster/imu_broadcaster_expected_structure
           pwd
           ls -a
           ls -a src/
       - name: build
         run: |
+          cd /__w/imu_broadcaster/imu_broadcaster/imu_broadcaster_expected_structure
           mkdir build
           cd build
           cmake ..
