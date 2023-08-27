@@ -40,5 +40,5 @@ jobs:
           cd /__w/imu_broadcaster/imu_broadcaster/imu_broadcaster_expected_structure
           mkdir build
           cd build
-          cmake ..
-          make
+          cmake .. --parallel 1
+          make -j 1
