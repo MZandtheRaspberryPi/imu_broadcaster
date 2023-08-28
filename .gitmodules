@@ -4,6 +4,6 @@
 [submodule "Adafruit_Sensor"]
 	path = Adafruit_Sensor
 	url = git@github.com:MZandtheRaspberryPi/Adafruit_Sensor.git
-[submodule "websocketpp"]
-	path = websocketpp
-	url = git@github.com:zaphoyd/websocketpp.git
+[submodule "imu_websockets"]
+	path = imu_websockets
+	url = git@github.com:MZandtheRaspberryPi/imu_websockets.git
