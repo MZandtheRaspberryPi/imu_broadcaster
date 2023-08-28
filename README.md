@@ -2,6 +2,10 @@
 ![example workflow](https://github.com/MZandtheRaspberryPi/imu_broadcaster/actions/workflows/pipeline.yaml/badge.svg)  
 A repo that talks to a bno055 imu using adafruit libraries and broadcasts the data via websocket, serialized with protobuffer.
 
+```
+git clone git@github.com:MZandtheRaspberryPi/imu_broadcaster.git --recurse-submodules
+```
+
 ## Running
 The script takes as input the i2c device address, and the chip address (the adafrui bno055 has a default address of 0x28), and the websocket port to publish messages to.  
 ```
