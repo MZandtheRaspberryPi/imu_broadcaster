@@ -162,8 +162,8 @@ int main(int argc, char* argv[])
     imu_msg.set_accel_calibration(accel);
     imu_msg.set_mag_calibration(mag);
 
-    std::string debug_str = imu_msg.DebugString();
-    std::cout << debug_str << std::endl;
+    // std::string debug_str = imu_msg.DebugString();
+    // std::cout << debug_str << std::endl;
 
     size_t msg_size = imu_msg.ByteSizeLong();
     uint8_t* msg_arr = new uint8_t[msg_size];
