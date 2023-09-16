@@ -41,8 +41,10 @@ void setup_bno(Adafruit_BNO055 &bno) {
 
   delay(1000);
 
-  bno.setAxisRemap(adafruit_bno055_axis_remap_config_t::REMAP_CONFIG_P1);
-  bno.setAxisSign(adafruit_bno055_axis_remap_sign_t::REMAP_SIGN_P1);
+  bno.setAxisRemap(
+      Adafruit_BNO055::adafruit_bno055_axis_remap_config_t::REMAP_CONFIG_P1);
+  bno.setAxisSign(
+      Adafruit_BNO055::adafruit_bno055_axis_remap_sign_t::REMAP_SIGN_P1);
 }
 
 void setup_sigint_handler(struct sigaction &sig_int_handler) {
