@@ -160,3 +160,19 @@ m@compass:~$ i2cdetect -y 3
 
 
 ```
+
+## Coordinate Systems
+Datasheet for sensor is [here](https://cdn-shop.adafruit.com/datasheets/BST_BNO055_DS000_12.pdf). We can see our sensor's default coordinate system in the PDF.   
+![coordinate_system](assets/bosch_coordinate_system.png)
+
+
+x axis is 00  
+y axis is 01  
+z axis is 10  
+invalid is 11  
+Default corresponds to: 0x24:  
+```
+10 01 00
+0010 0100
+  2   4
+```
