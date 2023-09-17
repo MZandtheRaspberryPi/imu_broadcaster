@@ -33,7 +33,7 @@ void setup_bno(Adafruit_BNO055 &bno) {
   log_msg("Trying to Connect to the BNO055 Sensor");
 
   /* Initialise the sensor */
-  if (!bno.begin()) {
+  if (!bno.begin(adafruit_bno055_opmode_t::OPERATION_MODE_NDOF)) {
     /* There was a problem detecting the BNO055 ... check your connections */
     log_msg("Ooops, no BNO055 detected ... Check your wiring or I2C ADDR!");
     exit(1);
