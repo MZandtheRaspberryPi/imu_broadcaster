@@ -40,7 +40,7 @@ void setup_bno(Adafruit_BNO055 &bno) {
   }
 
   delay(1000);
-
+  std::cout << "setting axis mapping" << std::endl;
   bno.setAxisRemap(
       Adafruit_BNO055::adafruit_bno055_axis_remap_config_t::REMAP_CONFIG_P1);
   bno.setAxisSign(
@@ -142,6 +142,9 @@ int main(int argc, char *argv[]) {
     write_vect_to_triad(sensor_data, linear_acceleration);
 
     sensor_data = bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
+    sensor_data[0] = sensor_data[0] * SENSORS_DPS_TO_RADS;
+    sensor_data[1] = sensor_data[1] * SENSORS_DPS_TO_RADS;
+    sensor_data[2] = sensor_data[2] * SENSORS_DPS_TO_RADS;
     imu_msgs::Triad *angular_acceleration =
         imu_msg.mutable_angular_acceleration();
     write_vect_to_triad(sensor_data, angular_acceleration);
@@ -169,8 +172,8 @@ int main(int argc, char *argv[]) {
     imu_msg.set_accel_calibration(accel);
     imu_msg.set_mag_calibration(mag);
 
-    //std::string debug_str = imu_msg.linear_acceleration().DebugString();
-    //std::cout << debug_str << std::endl;
+    // std::string debug_str = imu_msg.linear_acceleration().DebugString();
+    // std::cout << debug_str << std::endl;
 
     size_t msg_size = imu_msg.ByteSizeLong();
     uint8_t *msg_arr = new uint8_t[msg_size];
